@@ -3,7 +3,7 @@ import os
 import time
 
 # Configure Gemini (Make sure this is called once at the top)
-genai.configure(api_key=os.getenv("AIzaSyC6N6b-UBjYoqEUyKYcV0F3t1h4YMcGo7E"))
+genai.configure(api_key=os.getenv("google-api-key"))
 
 def get_ai_explanation(device_name, status, latency, suggestion):
     prompt = (
