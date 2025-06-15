@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Network Monitor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 30px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #222;
+            color: white;
+        }
+        .reachable {
+            color: green;
+            font-weight: bold;
+        }
+        .unreachable {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛰️ Real-Time Network Monitoring Dashboard</h1>
+    <table id="status-table">
+        <thead>
+            <tr>
+                <th>Device</th>
+                <th>IP Address</th>
+                <th>Status</th>
+                <th>Latency (ms)</th>
+                <th>AI Suggestion</th>
+                <th>AI Insight</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function fetchStatus() {
+    const response = await fetch('/status-basic');
+    const data = await response.json();
+    const tbody = document.querySelector("#status-table tbody");
+    tbody.innerHTML = "";
+
+    for (let device in data) {
+        const info = data[device];
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${device}</td>
+            <td>${info.ip}</td>
+            <td class="${info.status}">${info.status}</td>
+            <td>${info.latency ?? "—"}</td>
+            <td>${info.suggestion}</td>
+            <td id="ai-${device}">Loading...</td>
+        `;
+        tbody.appendChild(row);
+
+        // Fetch AI explanation separately
+        fetch('/ai-insight', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                device,
+                status: info.status,
+                latency: info.latency,
+                suggestion: info.suggestion
+            })
+        })
+        .then(res => res.json())
+        .then(ai => {
+            document.getElementById(`ai-${device}`).textContent = ai.ai_explanation;
+        })
+        .catch(err => {
+            document.getElementById(`ai-${device}`).textContent = "AI error";
+        });
+    }
+}
+
+        fetchStatus();
+        setInterval(fetchStatus, 5000); // refresh every 5 seconds
+
+    </script>
+</body>
+</html>
