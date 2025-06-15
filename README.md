@@ -96,4 +96,5 @@ PRs welcome! Drop a GitHub issue or feature request anytime.
 ## 👨‍💻 Maintainer
 
 **@Abdulkabeer-W**
-Project: *AI-Powered Network Troubleshooter*
+
+**Project:** *AI-Powered Network Troubleshooter*
