@@ -1,12 +1,38 @@
-# Python
+```gitignore
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# Virtual Environment
 .venv/
+env/
+venv/
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Editor
+# IDE / Editor configs
 .vscode/
 .idea/
+*.swp
+
+# Logs and cache
+*.log
+.vapi_requests.log
+.vscode/
+.DS_Store
+
+# Flask
+instance/
+*.db
+
+# Python dotenv
+.env
+.env.*
+
+# System
+Thumbs.db
+desktop.ini
+
+# Reports / artifacts
+*.pdf
+docs/*.mp4
+docs/*.png
